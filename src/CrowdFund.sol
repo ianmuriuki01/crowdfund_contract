@@ -13,8 +13,9 @@ contract CrownFund{
         uint256 goal,
         uint32 startTime,
         uint32 endTime
-
     );
+
+    event Cancel(uint256 id);
     IERC20 immutable token;
     struct Campaign{
         address creator;
@@ -31,7 +32,7 @@ contract CrownFund{
         token = IERC20(_token);
     }
 
-    function launch(uint256 _goal, uint32 _startTime, uint32 _endTime) public{
+    function launch(uint256 _goal, uint32 _startTime, uint32 _endTime) external{
         require(_startTime>=block.timestamp, "start time is invalid");
         require(_endTime>= _startTime, "end time invalid");
         require(_endTime <= block.timestamp + 90 days, "end time still invalid");
@@ -45,5 +46,14 @@ contract CrownFund{
             claimed: false
         });
         emit Launch(count, msg.sender, _goal, _startTime, _endTime);
+    }
+
+    function cancel(uint256 _id) external{
+        Campaign memory campaign = campaigns[_id];
+        require(campaign.creator == msg.sender, "not creator");
+        require(block.timestamp < campaign.startTime, "campaign started");
+        delete campaigns[_id];
+
+        emit Cancel(_id);
     }
 }
