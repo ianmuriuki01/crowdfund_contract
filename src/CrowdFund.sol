@@ -75,11 +75,17 @@ contract CrownFund{
     }
 
     function cancelPledge(uint256 _id) external {
-        Campaign memory deletePledge = campaigns[_id];
-        require(deletePledge.claimed == false, "Campaign already closed");
-        delete campaigns[_id].pledged;
-        emit CancelPledge(_id);
+        Campaign storage campaign = campaigns[_id];
+        require(block.timestamp <= campaign.endTime, "campaign ended");
+        require(campaign.claimed == false, "campaign already closed");
+        uint256 bal = pledgedAmount[_id][msg.sender];
+        require(bal > 0, "no pledges made");
+        campaign.pledged -= bal;
+        pledgedAmount[_id][msg.sender] = 0;
 
+        token.transfer(msg.sender, bal);
+
+        emit CancelPledge(_id);
     }
 
     function claim(uint256 _id, uint256 _amount) external{
