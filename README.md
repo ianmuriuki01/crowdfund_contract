@@ -1,12 +1,12 @@
-CrownFund Smart Contract
-Overview
+CROWDFUND SMART CONTRACT
+OVERVIEW
 
 The CrownFund contract is a crowdfunding platform built on Ethereum-compatible blockchains using ERC20 tokens.
 It allows creators to launch campaigns with funding goals and deadlines, while supporters can pledge tokens toward these campaigns.
 
 If a campaign succeeds (meets or exceeds its funding goal by the end date), the creator can claim the funds. Otherwise, backers can withdraw their pledges as refunds.
 
-Features
+FEATURES
 
 Campaign Launching: Creators can define funding goals and timelines.
 
@@ -20,8 +20,8 @@ Refunds: Backers get their funds back if the campaign fails.
 
 Event Logging: Important actions emit events for off-chain indexing.
 
-Contract Details
-State Variables
+CONTRACT DETAILS
+STATE VARIABLES
 
 IERC20 immutable token: The ERC20 token used for pledges.
 
@@ -45,7 +45,7 @@ uint32 endTime – Campaign end timestamp.
 
 bool claimed – Whether funds have been claimed.
 
-Functions
+FUNCTIONS
 constructor(address _token)
 
 Initializes the contract with the ERC20 token used for pledges.
@@ -104,7 +104,7 @@ Transfers pledged tokens back to supporter.
 
 Emits: Refund.
 
-Events
+EVENTS
 
 Launch(uint256 id, address creator, uint256 goal, uint32 startTime, uint32 endTime)
 
@@ -118,7 +118,7 @@ Claim(uint256 id, uint256 amount)
 
 Refund(uint256 id, uint256 amount)
 
-Usage Flow
+USAGE FLOW
 
 Creator launches a campaign.
 
@@ -134,7 +134,7 @@ Backers can call refund() to retrieve funds.
 
 Backers may also cancel their pledge before the campaign ends.
 
-Security Considerations
+SECURITY CONSIDERATIONS
 
 ERC20 Dependency: Contract relies on correct ERC20 token behavior.
 
@@ -144,6 +144,6 @@ Timelocks: Campaign start and end times are enforced.
 
 Claim Safety: Creators cannot claim more than pledged.
 
-License
+LICENSE
 
 This project is licensed under the MIT License
